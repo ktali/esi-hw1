@@ -9,8 +9,9 @@ import (
 )
 
 type Do struct {
-	Id      int    `json:"id"`
-	Content string `json:"content"`
+	Id          int    `json:"id"`
+	Content     string `json:"content"`
+	IsCompleted bool   `json:"is_completed"`
 }
 
 type Dos []Do
