@@ -1,0 +1,4 @@
+# Add directives
+services:
+  rest-service:
+    build: ./rest # uses Dockerfile in `rest` dir to build the image
