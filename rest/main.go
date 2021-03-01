@@ -3,13 +3,14 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/gorilla/mux"
 	"log"
 	"net/http"
+
+	"github.com/gorilla/mux"
 )
 
 type Do struct {
-	Id          int    `json:"id"`
+	Id          int64  `json:"id"`
 	Content     string `json:"content"`
 	IsCompleted bool   `json:"is_completed"`
 }
@@ -39,8 +40,8 @@ func handleRequests() {
 	router := mux.NewRouter()
 	router.HandleFunc("/", listDos).Methods("GET")
 	router.HandleFunc("/add", addDos).Methods("POST")
-	router.HandleFunc("/remove", removeDos).Methods("DELETE")
-	router.HandleFunc("/complete", completeDos).Methods("PUT")
+	router.HandleFunc("/remove{id:[0-9]+}", removeDos).Methods("DELETE")
+	router.HandleFunc("/complete", completeDos).Methods("PATCH")
 	log.Fatal(http.ListenAndServe(":8081", router))
 }
 
