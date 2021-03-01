@@ -36,12 +36,12 @@ func completeDos(w http.ResponseWriter, r *http.Request) {
 }
 
 func handleRequests() {
-	router := mux.NewRouter().StrictSlash(true)
+	router := mux.NewRouter()
 	router.HandleFunc("/", listDos).Methods("GET")
 	router.HandleFunc("/add", addDos).Methods("POST")
 	router.HandleFunc("/remove", removeDos).Methods("DELETE")
 	router.HandleFunc("/complete", completeDos).Methods("PUT")
-	log.Fatal(http.ListenAndServe(":8081", nil))
+	log.Fatal(http.ListenAndServe(":8081", router))
 }
 
 func main() {
