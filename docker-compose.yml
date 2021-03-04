@@ -1,4 +1,13 @@
-# Add directives
 services:
-  rest-service:
-    build: ./rest # uses Dockerfile in `rest` dir to build the image
+  todo-server:
+    image: 95.216.219.12:5000/todo-server
+    ports:
+    - 8081:8081
+  integration-test:
+    image: 95.216.219.12:5000/todo-cli
+    depends_on:
+      - todo-server
+    command: ./integration-test.sh
+  functional-test:
+    image: 95.216.219.12:5000/todo-server
+    command: ./functional-test.sh
