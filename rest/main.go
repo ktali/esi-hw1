@@ -2,7 +2,6 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"log"
 	"math/rand"
 	"net/http"
@@ -77,7 +76,19 @@ func removeFromDos(i int) {
 }
 
 func completeDos(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Not implemented")
+	w.Header().Set("Content-Type", "application/json")
+	params := mux.Vars(r)
+	id, err := strconv.Atoi(params["id"])
+	if err == nil {
+		for idx, item := range todos {
+			if item.Id == id {
+				todos[idx].IsCompleted = true
+				json.NewEncoder(w).Encode(Response{Status: "ok"})
+				return
+			}
+		}
+		json.NewEncoder(w).Encode(Response{Status: "error", ErrorContent: "no such entry"})
+	}
 }
 
 func handleRequests() {
@@ -92,7 +103,7 @@ func handleRequests() {
 	router.HandleFunc("/random", getRandomDo).Methods("GET")
 	router.HandleFunc("/add", addDos).Methods("POST")
 	router.HandleFunc("/remove/{id:[0-9]+}", removeDos).Methods("DELETE")
-	router.HandleFunc("/complete", completeDos).Methods("PATCH")
+	router.HandleFunc("/complete/{id:[0-9]+}", completeDos).Methods("PATCH")
 	log.Fatal(http.ListenAndServe(":8081", router))
 }
 
