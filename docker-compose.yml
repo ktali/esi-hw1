@@ -10,4 +10,4 @@ services:
     command: ./integration-test.sh
   functional-test:
     image: 95.216.219.12:5000/todo-server
-    command: ./functional-test.sh
+    command: bash -c "./todo-server && ./functional-test.sh"
