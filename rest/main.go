@@ -40,12 +40,13 @@ func getRandomDo(w http.ResponseWriter, r *http.Request) {
 
 func addDos(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
-	content := r.FormValue("content")
+	var todo Do
+	_ = json.NewDecoder(r.Body).Decode(&todo)
 	if len(todos) == 0 {
-		todos = append(todos, Do{Id: 0, Content: content, IsCompleted: false})
+		todos = append(todos, Do{Id: 0, Content: todo.Content, IsCompleted: false})
 	} else {
 		newId := todos[len(todos)-1].Id + 1
-		todos = append(todos, Do{Id: newId, Content: content, IsCompleted: false})
+		todos = append(todos, Do{Id: newId, Content: todo.Content, IsCompleted: false})
 	}
 	json.NewEncoder(w).Encode(Response{Status: "ok"})
 }
