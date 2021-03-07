@@ -2,11 +2,10 @@ package cmd
 
 import (
 	"github.com/spf13/cobra"
+	"os"
 )
 
-const (
-	AppBaseURL = "http://localhost:8081"
-)
+var AppBaseURL = "http://localhost:8081"
 
 type Do struct {
 	Id          int64  `json:"id"`
@@ -36,4 +35,7 @@ func Execute() {
 func init() {
 	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.todo-cli.yaml)")
 	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	if os.Getenv("TODO_SERVER_HOST") != "" {
+		AppBaseURL = os.Getenv("TODO_SERVER_HOST")
+	}
 }
