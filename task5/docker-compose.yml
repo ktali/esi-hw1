@@ -1,0 +1,17 @@
+services:
+  
+  todo-server:
+    image: 95.216.219.12:5000/todo-server
+  
+  osjs:
+    image: osjs/osjs
+
+  nginx:
+    image: nginx
+    ports:
+      - 80:80
+    volumes:
+      - ./conf.d:/etc/nginx/conf.d
+    depends_on:
+      - todo-server
+      - osjs 

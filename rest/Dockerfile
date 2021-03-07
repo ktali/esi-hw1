@@ -5,4 +5,4 @@ COPY . .
 
 RUN go build -o todo-server
 
-CMD todo-server
+CMD ./todo-server
