@@ -1,5 +1,7 @@
 #!/bin/bash
 
+serverHost="todo-server"
+
 failCount=0
 passCount=0
 
@@ -15,7 +17,7 @@ passTest () {
 
 # Check if listTodos returns all 3 dummy data elements
 testListTodosListsTodos() {
-  listTodosResp=$(curl -s --request GET 'localhost:8081/')
+  listTodosResp=$(curl -s --request GET "$serverHost:8081/")
 
   # Get length of listTodos response json array
   len=$(echo "$listTodosResp" | jq 'length')
@@ -28,7 +30,7 @@ testListTodosListsTodos() {
 }
 
 testGetRandomTodoReturnsOneOfTodos () {
-  randomTodoResp=$(curl -s --request GET 'localhost:8081/random')
+  randomTodoResp=$(curl -s --request GET "$serverHost:8081/random")
 
   # Get id of random todo
   id=$(echo "$randomTodoResp" | jq '.id')
@@ -48,7 +50,7 @@ testAddTodoAddsTodo () {
   addTodoResp=$(curl -s --header "Content-Type: application/json" \
                 --request POST \
                 --data '{"content":"newTODO"}' \
-                'localhost:8081/add')
+                "$serverHost:8081/add")
 
   # Response status should be ok
   status=$(echo "$addTodoResp" | jq '.status')
@@ -58,7 +60,7 @@ testAddTodoAddsTodo () {
     return
   fi
 
-  afterAddListTodosResp=$(curl -s --request GET 'localhost:8081/')
+  afterAddListTodosResp=$(curl -s --request GET "$serverHost:8081/")
   
   # Element at index 3 of listTodo response should be new added todo
   newTodo=$(echo "$afterAddListTodosResp" | jq '.[3].content')
@@ -72,12 +74,12 @@ testAddTodoAddsTodo () {
 }
 
 testCompleteTodoCompletesTodo () {
-  beforeCompleteListTodosResp=$(curl -s --request GET 'localhost:8081/')
+  beforeCompleteListTodosResp=$(curl -s --request GET "$serverHost:8081/")
 
   # Get is_completed of 4th todo in the system before complete request
   statusBeforeComplete=$(echo "$beforeCompleteListTodosResp" | jq '.[3].is_completed')
 
-  completeTodoResp=$(curl -s --request PATCH 'localhost:8081/complete/0')
+  completeTodoResp=$(curl -s --request PATCH "$serverHost:8081/complete/0")
 
   # Response status should be ok
   status=$(echo "$completeTodoResp" | jq '.status')
@@ -87,7 +89,7 @@ testCompleteTodoCompletesTodo () {
     return
   fi
 
-  afterCompleteListTodosResp=$(curl -s --request GET 'localhost:8081/')
+  afterCompleteListTodosResp=$(curl -s --request GET "$serverHost:8081/")
 
   # Get is_completed of 4th todo in the system after complete request
   statusAfterComplete=$(echo "$afterCompleteListTodosResp" | jq '.[3].is_completed')
@@ -101,12 +103,12 @@ testCompleteTodoCompletesTodo () {
 }
 
 testRemoveTodoRemovesTodo () {
-  beforeDeleteListTodosResp=$(curl -s --request GET 'localhost:8081/')
+  beforeDeleteListTodosResp=$(curl -s --request GET "$serverHost:8081/")
 
   # Get length of listTodos response before delete
   lenBeforeDelete=$(echo "$beforeDeleteListTodosResp" | jq 'length')
 
-  removeTodoResp=$(curl -s --request DELETE 'localhost:8081/remove/3')
+  removeTodoResp=$(curl -s --request DELETE "$serverHost:8081/remove/3")
 
   # Response status should be ok
   status=$(echo "$removeTodoResp" | jq '.status')
@@ -116,7 +118,7 @@ testRemoveTodoRemovesTodo () {
     return
   fi
 
-  afterDeleteListTodosResp=$(curl -s --request GET 'localhost:8081/')
+  afterDeleteListTodosResp=$(curl -s --request GET "serverHost:8081/")
 
   # Get length of listTodos response after delete
   lenAfterDelete=$(echo "$afterDeleteListTodosResp" | jq 'length')
@@ -139,3 +141,7 @@ testRemoveTodoRemovesTodo
 
 echo "Tests passed: $passCount"
 echo "Tests failed: $failCount"
+
+if [[ $failCount ]]; then
+  exit 1
+fi

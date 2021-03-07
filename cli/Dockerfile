@@ -3,8 +3,10 @@ FROM golang:1.16-alpine
 WORKDIR /go/cli
 COPY . .
 
-RUN go build -o todo-cli
+RUN apk add --no-cache jq
 RUN apk add --no-cache bash
+RUN apk add --no-cache curl
 
-# to keep the container running I guess
-CMD bash
+RUN go build -o todo-cli
+
+# Nothing to do... Define `command` in docker-compose.yml

@@ -1,13 +1,18 @@
+# To run this compose in test mode, execute `docker-compose up --exit-code-from test-runner`
+# This automatically shuts down the compose and returns the exit code of the tests
+
 services:
+
   todo-server:
     image: 95.216.219.12:5000/todo-server
     ports:
     - 8081:8081
-  integration-test:
+  
+  test-runner:
     image: 95.216.219.12:5000/todo-cli
     depends_on:
       - todo-server
-    command: ./integration-test.sh
-  functional-test:
-    image: 95.216.219.12:5000/todo-server
-    command: bash -c "./todo-server && ./functional-test.sh"
+    volumes:
+      - ./rest/functional-test.sh:/go/cli/functional-test.sh
+        #- ./cli/integration-test.sh:/go/cli/integration-test.sh
+    command: ./functional-test.sh
