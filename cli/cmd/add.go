@@ -15,7 +15,7 @@ var addCmd = &cobra.Command{
 	Short: "Add a new todo",
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("add called")
-		addTodo(args)
+		AddTodo(args)
 	},
 }
 
@@ -23,10 +23,11 @@ func init() {
 	rootCmd.AddCommand(addCmd)
 }
 
-func addTodo(args []string) {
+// AddTodo command
+func AddTodo(args []string) {
 
 	if len(args) > 1 {
-		fmt.Println("Error: Too many args.")
+		log.Fatal("Error: Too many args.")
 	}
 
 	do := Do{Content: args[0]}

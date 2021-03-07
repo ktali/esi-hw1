@@ -14,8 +14,7 @@ var listCmd = &cobra.Command{
 	Use:   "list",
 	Short: "Display a list of todos",
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("list called")
-		listDos()
+		listDosCmd()
 	},
 }
 
@@ -23,7 +22,12 @@ func init() {
 	rootCmd.AddCommand(listCmd)
 }
 
-func listDos() {
+func listDosCmd() {
+	fmt.Println(string(ListDos()))
+}
+
+// ListDos list all todo items
+func ListDos() []byte {
 	resp, err := http.Get(AppBaseURL)
 
 	if err != nil {
@@ -36,5 +40,5 @@ func listDos() {
 		log.Fatal(err)
 	}
 
-	fmt.Println(string(resData))
+	return resData
 }

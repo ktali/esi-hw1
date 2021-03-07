@@ -15,7 +15,7 @@ var removeCmd = &cobra.Command{
 	Short: "Remove a todo item",
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("remove called")
-		removeTodo(args)
+		RemoveTodo(args)
 	},
 }
 
@@ -23,7 +23,8 @@ func init() {
 	rootCmd.AddCommand(removeCmd)
 }
 
-func removeTodo(args []string) {
+// RemoveTodo remove todo item from list of todos
+func RemoveTodo(args []string) {
 	if len(args) > 1 {
 		fmt.Println("Error: Too many args.")
 	}
@@ -36,7 +37,7 @@ func removeTodo(args []string) {
 
 	req, err := http.NewRequest(
 		http.MethodDelete,
-		fmt.Sprintf("%s/delete%d", AppBaseURL, i),
+		fmt.Sprintf("%s/remove/%d", AppBaseURL, i),
 		nil)
 
 	if err != nil {
