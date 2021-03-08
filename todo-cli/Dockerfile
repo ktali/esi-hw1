@@ -1,6 +1,6 @@
 FROM golang:1.16-alpine
 
-WORKDIR /go/src/cli
+WORKDIR /go/src/todo-cli
 COPY . .
 
 RUN apk add --no-cache build-base

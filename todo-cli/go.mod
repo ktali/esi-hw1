@@ -1,4 +1,4 @@
-module github.com/ktali/esi-hw1/cli
+module github.com/ktali/esi-hw1/todo-cli
 
 go 1.16
 

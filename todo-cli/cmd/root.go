@@ -1,8 +1,9 @@
 package cmd
 
 import (
-	"github.com/spf13/cobra"
 	"os"
+
+	"github.com/spf13/cobra"
 )
 
 var AppBaseURL = "http://localhost:8081"
@@ -17,13 +18,7 @@ var cfgFile string
 
 var rootCmd = &cobra.Command{
 	Use:   "todo-cli",
-	Short: "A brief description of your application",
-	Long: `A longer description that spans multiple lines and likely contains
-examples and usage of using your application. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Short: "A simple cli todo tool",
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.
@@ -33,8 +28,6 @@ func Execute() {
 }
 
 func init() {
-	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.todo-cli.yaml)")
-	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 	if os.Getenv("TODO_SERVER_HOST") != "" {
 		AppBaseURL = os.Getenv("TODO_SERVER_HOST")
 	}

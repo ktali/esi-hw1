@@ -1,8 +1,6 @@
 package cmd
 
 import (
-	"bytes"
-	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
@@ -11,21 +9,21 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var completeCmd = &cobra.Command{
-	Use:   "complete",
-	Short: "Mark a todo as complete",
+// removeCmd represents the remove command
+var removeCmd = &cobra.Command{
+	Use:   "remove",
+	Short: "Remove a todo item",
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("complete called")
-		completeTodo(args)
+		RemoveTodo(args)
 	},
 }
 
 func init() {
-	rootCmd.AddCommand(completeCmd)
+	rootCmd.AddCommand(removeCmd)
 }
 
-func completeTodo(args []string) {
-
+// RemoveTodo remove todo item from list of todos
+func RemoveTodo(args []string) {
 	if len(args) > 1 {
 		fmt.Println("Error: Too many args.")
 	}
@@ -36,18 +34,10 @@ func completeTodo(args []string) {
 		log.Fatal(err)
 	}
 
-	do := Do{Id: i, IsCompleted: true}
-
-	todoJSON, err := json.Marshal(do)
-
-	if err != nil {
-		log.Fatal(err)
-	}
-
 	req, err := http.NewRequest(
-		http.MethodPatch,
-		fmt.Sprintf("%s/complete", AppBaseURL),
-		bytes.NewBuffer(todoJSON))
+		http.MethodDelete,
+		fmt.Sprintf("%s/remove/%d", AppBaseURL, i),
+		nil)
 
 	if err != nil {
 		log.Fatal(err)

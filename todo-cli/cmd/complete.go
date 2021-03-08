@@ -9,22 +9,20 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// removeCmd represents the remove command
-var removeCmd = &cobra.Command{
-	Use:   "remove",
-	Short: "Remove a todo item",
+var completeCmd = &cobra.Command{
+	Use:   "complete",
+	Short: "Mark a todo as complete",
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("remove called")
-		RemoveTodo(args)
+		completeTodo(args)
 	},
 }
 
 func init() {
-	rootCmd.AddCommand(removeCmd)
+	rootCmd.AddCommand(completeCmd)
 }
 
-// RemoveTodo remove todo item from list of todos
-func RemoveTodo(args []string) {
+func completeTodo(args []string) {
+
 	if len(args) > 1 {
 		fmt.Println("Error: Too many args.")
 	}
@@ -36,8 +34,8 @@ func RemoveTodo(args []string) {
 	}
 
 	req, err := http.NewRequest(
-		http.MethodDelete,
-		fmt.Sprintf("%s/remove/%d", AppBaseURL, i),
+		http.MethodPatch,
+		fmt.Sprintf("%s/complete/%d", AppBaseURL, i),
 		nil)
 
 	if err != nil {

@@ -7,7 +7,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/ktali/esi-hw1/cli/cmd"
+	"github.com/ktali/esi-hw1/todo-cli/cmd"
 )
 
 func TestAddNewTodo(t *testing.T) {

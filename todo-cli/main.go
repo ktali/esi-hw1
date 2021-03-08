@@ -15,7 +15,7 @@ limitations under the License.
 */
 package main
 
-import "github.com/ktali/esi-hw1/cli/cmd"
+import "github.com/ktali/esi-hw1/todo-cli/cmd"
 
 func main() {
 	cmd.Execute()

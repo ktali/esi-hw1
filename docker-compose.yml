@@ -13,7 +13,7 @@ services:
     depends_on:
       - todo-server
     volumes:
-      - ./rest/functional-test.sh:/go/src/cli/functional-test.sh
+      - ./rest/functional-test.sh:/go/src/todo-cli/functional-test.sh
     environment:
       - TODO_SERVER_HOST=http://todo-server:8081
     command: bash -c "

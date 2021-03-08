@@ -14,7 +14,6 @@ var addCmd = &cobra.Command{
 	Use:   "add",
 	Short: "Add a new todo",
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("add called")
 		AddTodo(args)
 	},
 }
