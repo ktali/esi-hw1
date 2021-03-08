@@ -7,6 +7,11 @@ import (
 
 var AppBaseURL = "http://localhost:8081"
 
+type Response struct {
+	Status       string `json:"status"`
+	ErrorContent string `json:"error"`
+}
+
 type Do struct {
 	Id          int64  `json:"id"`
 	Content     string `json:"content"`

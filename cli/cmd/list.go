@@ -6,7 +6,7 @@ import (
 	"log"
 	"net/http"
 	"os"
-
+	"encoding/json"
 	"github.com/spf13/cobra"
 )
 
@@ -22,11 +22,20 @@ func init() {
 	rootCmd.AddCommand(listCmd)
 }
 
+//Prints the todo list
 func listDosCmd() {
-	fmt.Println(string(ListDos()))
+	res := ListDos()
+
+	var dos []Do
+	json.Unmarshal(res, &dos)
+
+	fmt.Println("Your list of TODOs:")
+	for _, do := range dos {
+		fmt.Printf("Id: %d\tContent: %s\tDone: %t\n", do.Id, do.Content, do.IsCompleted)
+	}
 }
 
-// ListDos list all todo items
+// ListDos fetches all todo items
 func ListDos() []byte {
 	resp, err := http.Get(AppBaseURL)
 

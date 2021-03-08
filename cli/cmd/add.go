@@ -23,11 +23,12 @@ func init() {
 	rootCmd.AddCommand(addCmd)
 }
 
+
 // AddTodo command
 func AddTodo(args []string) {
 
-	if len(args) > 1 {
-		log.Fatal("Error: Too many args.")
+	if len(args) != 1 {
+		log.Fatal("Error: Add requires exactly ONE argument.")
 	}
 
 	do := Do{Content: args[0]}
@@ -35,6 +36,7 @@ func AddTodo(args []string) {
 	todoJSON, err := json.Marshal(do)
 
 	if err != nil {
+		fmt.Println("Error adding TODO. Reason: ")
 		log.Fatal(err)
 	}
 
@@ -44,6 +46,9 @@ func AddTodo(args []string) {
 		bytes.NewBuffer(todoJSON))
 
 	if err != nil {
+		fmt.Println("Error adding TODO. Reason: ")
 		log.Fatal(err)
 	}
+
+	fmt.Println("TODO added successfully!")
 }
