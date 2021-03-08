@@ -1,3 +1,4 @@
+# Use Alpine base images to reduce image size
 FROM golang:1.16-alpine
 
 WORKDIR /go/rest
