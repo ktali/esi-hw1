@@ -3,6 +3,7 @@
 
 This repository contains the solutions and reviews of all the tasks. 
 * [Task 1 solution](rest)
+  - The special feature implemented is a random ToDo endpoint for the moments you can't decide what to do next.
 * [Task 2 solution](todo-cli)
 * Task 3 solution are
   - tests in [rest/functional-test.sh](rest/functional-test.sh) and [todo-cli/integration_tests.go](todo-cli/integration_tests.go) 
